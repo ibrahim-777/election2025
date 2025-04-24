@@ -61,7 +61,7 @@ export function CardWithForm() {
 
     
   return (
-    <Card className="w-1/2 p-6 shadow-xl m-auto mt-20" dir="rtl">
+    <Card className="w-full p-6 shadow-xl m-auto mt-20" dir="rtl">
       <CardHeader>
         <CardTitle className="justify-center text-2xl">معرفة مركز الإقتراع</CardTitle>
         {/* <CardDescription>     -click.</CardDescription> */}
@@ -69,10 +69,9 @@ export function CardWithForm() {
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
-          <div className="flex justify-between">
             <div className="flex flex-col  space-y-3">
               <Label htmlFor="name">المحلة</Label>
-              <Select className="w-[500px]" name="District" defaultValue="" onValueChange={(value) => setForm({ ...form, District: value })}>
+              <Select className="w-1/4" name="District" defaultValue="" onValueChange={(value) => setForm({ ...form, District: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="يرجى اختيار المحلة" />
                 </SelectTrigger>
@@ -93,11 +92,10 @@ export function CardWithForm() {
             <div className="flex flex-col space-y-3">
               <Label htmlFor="framework">رقم القيد</Label>
             <Input id="name" placeholder="يرجى ادخال رقم القيد" name="registrationNb" defaultValue="" onChange={(e) =>
-              setForm({ ...form, registrationNb: e.target.value })
-            }/>
+              setForm({ ...form, registrationNb: e.target.value })}
+              className="w-1/4"
+              />
             </div>
-            </div>
-            <div className="flex justify-between">
             <div className="flex flex-col space-y-3">
               <Label htmlFor="framework">الجنس</Label>
               <Select onValueChange={(value) => setForm({ ...form, sex: value })} name="sex" defaultValue="">
@@ -135,7 +133,6 @@ export function CardWithForm() {
                   <SelectItem value="لاتين">لاتين</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
             </div>
         
           </div>
