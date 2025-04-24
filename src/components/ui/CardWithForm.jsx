@@ -1,0 +1,158 @@
+'use client'
+
+import * as React from "react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+//   CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export function CardWithForm() {
+    const [form, setForm] = useState({
+        sex: "",
+        registrationNb: "",
+        District: "",
+        sect: "",
+      });
+    
+      const [result, setResult] = useState(null);
+    
+      const handleSearch = async () => {
+        try {
+          // Build the query string from form values
+          const query = new URLSearchParams({
+            sex: form.sex,
+            registrationNb: form.registrationNb,
+            District: form.District, // Make sure "District" is capitalized here to match backend
+            sect: form.sect,
+          });
+      
+          // Send GET request to the backend
+          const res = await fetch(`/api/election?${query.toString()}`);
+          const data = await res.json();
+      
+          // Show first matching result
+          if (data.length > 0) {
+            setResult(data[0]);
+          } else {
+            setResult(null); // or show "not found" message
+          }
+      
+          console.log("Result data:", data);
+        } catch (err) {
+          console.error("Error fetching data:", err);
+        }
+      };
+      
+
+    
+  return (
+    <Card className="w-1/2 p-6 shadow-xl m-auto mt-20" dir="rtl">
+      <CardHeader>
+        <CardTitle className="justify-center text-2xl">معرفة مركز الإقتراع</CardTitle>
+        {/* <CardDescription>     -click.</CardDescription> */}
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="grid w-full items-center gap-4">
+          <div className="flex justify-between">
+            <div className="flex flex-col  space-y-3">
+              <Label htmlFor="name">المحلة</Label>
+              <Select className="w-[500px]" name="District" defaultValue="" onValueChange={(value) => setForm({ ...form, District: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="يرجى اختيار المحلة" />
+                </SelectTrigger>
+                <SelectContent >
+                  <SelectItem value="الزاهرية">الزاهرية</SelectItem>
+                  <SelectItem value="القبة">القبة</SelectItem>
+                  <SelectItem value="التل">التل</SelectItem>
+                  <SelectItem value="التبانة">التبانة</SelectItem>
+                  <SelectItem value="النوري">النوري</SelectItem>
+                  <SelectItem value="المهاترة">المهاترة</SelectItem>
+                  <SelectItem value="الرمانة">الرمانة</SelectItem>
+                  <SelectItem value="الحديد">الحديد</SelectItem>
+                  <SelectItem value="الحدادين">الحدادين</SelectItem>
+                  <SelectItem value="السويقة">السويقة</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <Label htmlFor="framework">رقم القيد</Label>
+            <Input id="name" placeholder="يرجى ادخال رقم القيد" name="registrationNb" defaultValue="" onChange={(e) =>
+              setForm({ ...form, registrationNb: e.target.value })
+            }/>
+            </div>
+            </div>
+            <div className="flex justify-between">
+            <div className="flex flex-col space-y-3">
+              <Label htmlFor="framework">الجنس</Label>
+              <Select onValueChange={(value) => setForm({ ...form, sex: value })} name="sex" defaultValue="">
+                <SelectTrigger id="framework">
+                  <SelectValue placeholder="يرجى اختيار الجنس" />
+                </SelectTrigger>
+                <SelectContent   position="popper">
+                  <SelectItem value="ذكر">ذكر</SelectItem>               
+                  <SelectItem value="أنثى">أنثى</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-3 w-max">
+              <Label htmlFor="framework">الطائفة</Label>
+              <Select name="sect" defaultValue="" onValueChange={(value) => setForm({ ...form, sect: value })}>
+                <SelectTrigger id="framework">
+                  <SelectValue className="w-200px" placeholder="يرجى اختيار الطائفة" />
+                </SelectTrigger>
+                <SelectContent  position="popper">
+                  <SelectItem value="سني">سني</SelectItem>
+                  <SelectItem value="علوي">علوي</SelectItem>
+                  <SelectItem value="شيعي">شيعي</SelectItem>
+                  <SelectItem value="ماروني">ماروني</SelectItem>
+                  <SelectItem value="اسرائيلي">اسرائيلي</SelectItem>
+                  <SelectItem value="كلدان">كلدان</SelectItem>
+                  <SelectItem value="كلدان كاثوليك">كلدان كاثوليك</SelectItem>
+                  <SelectItem value="أرمن كاثوليك">أرمن كاثوليك</SelectItem>
+                  <SelectItem value="أرمن ارثوذكس">أرمن ارثوذكس</SelectItem>
+                  <SelectItem value="روم ارثوذكس">روم ارثوذكس</SelectItem>
+                  <SelectItem value="روم كاثوليك">روم كاثوليك</SelectItem>
+                  <SelectItem value="انجيلي">انجيلي</SelectItem>
+                  <SelectItem value="درزي">درزي</SelectItem>
+                  <SelectItem value="سريان ارثوذكس">سريان ارثوذكس</SelectItem>
+                  <SelectItem value="سريان كاثوليك">سريان كاثوليك</SelectItem>
+                  <SelectItem value="لاتين">لاتين</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            </div>
+        
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button className="w-full" onClick={handleSearch}>بحث</Button>
+      </CardFooter>
+      {result && (
+          <CardContent className="mt-6 space-y-2 text-right bg-gray-50 p-4 rounded-xl shadow-sm">
+            <p className="text-xl font-bold">اسم المركز: {result.Center}</p>
+            <p className="text-lg">رقم الغرفة: {result.RoomNb}</p>
+            <p className="text-blue-600 underline cursor-pointer">
+              عرض الموقع على الخريطة
+            </p>
+          </CardContent>
+        )}
+    </Card>
+  )
+}
