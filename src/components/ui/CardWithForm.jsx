@@ -104,7 +104,7 @@ export function CardWithForm() {
                 </SelectTrigger>
                 <SelectContent   position="popper">
                   <SelectItem value="ذكر">ذكر</SelectItem>               
-                  <SelectItem value="أنثى">أنثى</SelectItem>
+                  <SelectItem value="انثى">أنثى</SelectItem>
                 </SelectContent>
               </Select>
             </div>
