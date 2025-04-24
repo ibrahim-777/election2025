@@ -31,6 +31,12 @@ export function CardWithForm() {
     
       const [result, setResult] = useState(null);
     
+      function convertArabicToEnglishNumbers(input) {
+        return input.replace(/[\u0660-\u0669]/g, function (d) {
+          return d.charCodeAt(0) - 0x0660;
+        });
+      }
+
       const handleSearch = async () => {
         try {
           // Build the query string from form values
@@ -92,7 +98,7 @@ export function CardWithForm() {
             <div className="flex flex-col space-y-3">
               <Label htmlFor="framework">رقم القيد</Label>
             <Input id="name" placeholder="يرجى ادخال رقم القيد" name="registrationNb" defaultValue="" onChange={(e) =>
-              setForm({ ...form, registrationNb: e.target.value })}
+              setForm({ ...form, registrationNb: convertArabicToEnglishNumbers(e.target.value) })}
               className="w-1/4"
               />
             </div>
