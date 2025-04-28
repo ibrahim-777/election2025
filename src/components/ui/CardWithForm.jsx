@@ -160,7 +160,7 @@ export function CardWithForm() {
 المعلومات خاطئة يرجى المحاولة مرة أخرى بعد التأكد من صحة المعلومة</p>
       )}
            </CardContent> */}
-      {(result && !error) ?(
+      {result && !error &&(
           <CardContent className="mt-6 space-y-2 text-right bg-gray-50 p-4 rounded-xl shadow-sm">
             <p className="text-xl font-bold">اسم المركز: {result.Center}</p>
             <p className="text-lg">رقم الغرفة: {result.RoomNb}</p>
@@ -168,8 +168,8 @@ export function CardWithForm() {
             <a href={result.location}   target="_blank" rel="noopener noreferrer" className="text-blue-600 underline cursor-pointer">
 عرض الموقع على الخريطة</a>
           </CardContent>
-        ):
-        (<p className="text-red-500 flex items-center justify-center text-lg">
+        )}
+{error && (<p className="text-red-500 flex items-center justify-center text-lg">
 المعلومات خاطئة يرجى المحاولة مرة أخرى بعد التأكد من صحة المعلومة</p>)}
     </Card>
     </>
