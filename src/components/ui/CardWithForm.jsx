@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useState } from "react";
 import { Button } from "@/components/ui/button"
+// import { 29 LT zarib slab } from "next/font/google";
 import {
   Card,
   CardContent,
@@ -30,7 +31,7 @@ export function CardWithForm() {
       });
     
       const [result, setResult] = useState(null);
-    
+      const [error, setError] = useState(false);
       function convertArabicToEnglishNumbers(input) {
         return input.replace(/[\u0660-\u0669]/g, function (d) {
           return d.charCodeAt(0) - 0x0660;
@@ -54,8 +55,10 @@ export function CardWithForm() {
           // Show first matching result
           if (data.length > 0) {
             setResult(data[0]);
+            setError(false);
           } else {
-            setResult(null); // or show "not found" message
+            setResult(null);
+            setError(true); // or show "not found" message
           }
       
           console.log("Result data:", data);
@@ -67,9 +70,13 @@ export function CardWithForm() {
 
     
   return (
-    <Card className="w-full p-6 shadow-xl m-auto mt-20" dir="rtl">
+    <>
+<><img alt="My Image" src="/logo.jpg" className="w-40 h-auto m-auto border-1px" />
+<p className="flex items-center justify-center font-bold font-[29LT-Zarid] text-2xl text-[#921B1F]">مشروع وعي</p>
+</>
+<Card className="w-full p-6 pt-2 font-bold shadow-xl m-auto mt-10" dir="rtl">
       <CardHeader>
-        <CardTitle className="justify-center text-2xl">معرفة مركز الإقتراع</CardTitle>
+        <CardTitle className="justify-center text-2xl text-[#921B1F]">معرفة مركز الإقتراع</CardTitle>
         {/* <CardDescription>     -click.</CardDescription> */}
       </CardHeader>
       <CardContent>
@@ -145,17 +152,26 @@ export function CardWithForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button className="w-full" onClick={handleSearch}>بحث</Button>
+        <Button className="w-full bg-[#921B1F]" onClick={handleSearch}>بحث</Button>
       </CardFooter>
-      {result && (
+      {/* <CardContent className="mt-6 space-y-2 text-right bg-gray-50 p-4 rounded-xl shadow-sm">
+      {error && (
+        <p className="text-red-500 flex items-center justify-center text-lg">
+المعلومات خاطئة يرجى المحاولة مرة أخرى بعد التأكد من صحة المعلومة</p>
+      )}
+           </CardContent> */}
+      {(result && !error) ?(
           <CardContent className="mt-6 space-y-2 text-right bg-gray-50 p-4 rounded-xl shadow-sm">
             <p className="text-xl font-bold">اسم المركز: {result.Center}</p>
             <p className="text-lg">رقم الغرفة: {result.RoomNb}</p>
-            <p className="text-blue-600 underline cursor-pointer">
-              عرض الموقع على الخريطة
-            </p>
+            {/* <p className="text-lg">رقم الغرفة: {result.location}</p> */}
+            <a href={result.location}   target="_blank" rel="noopener noreferrer" className="text-blue-600 underline cursor-pointer">
+عرض الموقع على الخريطة</a>
           </CardContent>
-        )}
+        ):
+        (<p className="text-red-500 flex items-center justify-center text-lg">
+المعلومات خاطئة يرجى المحاولة مرة أخرى بعد التأكد من صحة المعلومة</p>)}
     </Card>
+    </>
   )
 }

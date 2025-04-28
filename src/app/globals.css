@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@font-face {
+  font-family: '29LT-Zarid';
+  src: url('/29LT-Zarid.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @custom-variant dark (&:is(.dark *));
 

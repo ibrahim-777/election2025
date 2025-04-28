@@ -50,6 +50,7 @@ export async function GET(req) {
       RoomNb: 1,
       sect: 1,
       Center: 1,
+      location:1
     };
 
     const results = await collection
